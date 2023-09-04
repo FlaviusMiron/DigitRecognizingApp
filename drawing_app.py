@@ -5,7 +5,7 @@ but can also be trained locally on your machine. Uses the MNIST handwritten digi
 After drawing, clicking on "see prediction" will cause the script to take the pixel map of the digit you've drawn, format it and feed it to the
 neural network. Afterwards, the results are showed.
 
-I plan on imrpovint the network's training in the following time.
+I plan on improving the network's training in the following time.
 """
 
 
