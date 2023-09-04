@@ -9,6 +9,7 @@ import random
 
 class MLP:
     def __init__(self, sizes):
+        """Initializes various parameters."""
         self.num_layers = len(sizes)
         self.sizes = sizes
         
@@ -19,11 +20,13 @@ class MLP:
         self.epoch_performances = []
 
     def __feed_forward(self, a):
-        for w,b in zip(self.weights, self.biases):
-            a = self.__sigmoid(np.dot(w,a)+b)
+        """Returns the output of the network, given 'a' as input"""
+        for weight,bias in zip(self.weights, self.biases):
+            a = self.__sigmoid(np.dot(weight, a)+bias)
         return a
 
     def SGD(self, training_data, test_data = None, mini_batch_size = 10, epochs = 10 ,learning_rate = 0.5):
+        """Trains the network using mini-batch gradiend descent."""
         training_data = list(training_data)
         len_training_data = len(training_data)
         if test_data:
@@ -58,6 +61,7 @@ class MLP:
         self.save_data("parameters.pkl")
 
     def __back_propagate(self, image, target):
+        """Returns the gradients of the parameters for a single training example."""
         biases_gradients = [np.zeros((n,1)) for n in self.sizes[1:]]
         weights_gradients = [np.zeros((n,m)) for n,m in zip(self.sizes[1:],self.sizes[:-1])]
 
@@ -84,6 +88,7 @@ class MLP:
         return (biases_gradients, weights_gradients)
 
     def reinitialize_model(self):
+        """In case you want to re-train the model with other hyper-parameters."""
         self.biases = [np.random.randn(n,1) for n in self.sizes[1:]]
         self.weights = [np.random.randn(n,m) for n,m in zip(self.sizes[1:],self.sizes[:-1])]
 
@@ -92,6 +97,7 @@ class MLP:
         return sum([x == y for (x,y) in results])
     
     def save_data(self, file_name):
+        """Used to save the best performing parameters in order for them to be used by the drawing app.""""
         file = open(file_name,'wb')
         pickle.dump(self.parameters[np.argmax(self.epoch_performances)],file)
         print(np.argmax(self.epoch_performances))
