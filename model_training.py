@@ -6,17 +6,13 @@ Comment the corresponding lines to chose the training data. Right now it uses th
 """
 
 import minst_loader
+import extended_minst_loader
 import DigitsRecognizingNN
-import gzip
-import pickle
 
 training_data, validation_data, test_data = minst_loader.load_data_wrapper() # This will train the network with the normal database
 
-
-# training_data_none, validation_data, test_data = minst_loader.load_data_wrapper() # This will train the network with the extended database
-# f = gzip.open('expanded_training_data.pkl.gz', 'rb')
-# training_data = pickle.load(f, encoding="latin1")
+# training_data, validation_data, test_data = extended_minst_loader.load_data_wrapper() # This will train the network with the extended database
 
 
-model = DigitsRecognizingNN.MLP([784,30,10])
-model.SGD(training_data, test_data, epochs=10, mini_batch_size=20, learning_rate = 0.1, lmbd = 25)
+model = DigitsRecognizingNN.MLP([784,10,10])
+model.SGD(training_data, test_data, epochs=10, mini_batch_size=10, learning_rate = 0.1, lmbd = 5)
