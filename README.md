@@ -7,4 +7,5 @@ The book is an amazing resource on the topic, and most of the inspiration came f
 Note that it comes with a pretrained model, whom parameters are stored in the "parameters.pkl". This file will be over-written with other parameters as you train the network.
 
 I have created an extended database with the "process_images.py" script, that is by no means optimal, as that was not it's purpose. For every image in the original minst database i added a version of it that is rotate by 5 degrees to the left, to the right, translated by 4 pixels to the lest, to the right and one that has added gaussian noise on it. The original 50.000 images database was extended to 300.000. I was hoping that by doing this the modell would generalize better digits drawn by the user, as they might differ from the minst digits. I couldn't upload the file here since it is too big, even archived. Therefore, if you
-want to use it, you will need to generate the database on your machine by running the "process_images.py" script once.
+want to use it, you will need to generate the database on your machine by running the "process_images.py" script once. After the database has been created you will have to archive it in order for the network to 
+use it, via the "gzip_extended_database.py" script.
