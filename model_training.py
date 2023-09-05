@@ -3,6 +3,7 @@ Script that trains the multi-layer perceptron.
 Will print the accuracy on the unseen, test data.
 Can be trained either with the normal or the extended database (Note: the extended database takes significantly more time to train)
 Comment the corresponding lines to chose the training data. Right now it uses the normal database.
+The best performing parameters will be saved automatically and the application will make use of them to predict the digits you draw
 """
 
 import minst_loader
