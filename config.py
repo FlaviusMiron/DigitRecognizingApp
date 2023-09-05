@@ -1,7 +1,7 @@
 """
-This script is used to install the required libraries on the user's machine
+This script was used to buid the "config.exe" executable and it is used to install the required libraries on the user's machine
 It should be run via the "Run as administrator" command
-This file assumes that the user has Python installed on the machine
+This script assumes that the user has Python installed on the machine
 """
 import os
 
