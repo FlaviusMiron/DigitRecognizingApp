@@ -1,7 +1,8 @@
 """
 This scipt is used to expand the images in the minst dataset, via rotation, translation and noise adding.
-The puprpose is improving the generalization of the neural network, forcint it to learn patters specific to digits in general,
+The puprpose is improving the generalization of the neural network, forcing it to learn patters specific to digits in general,
 not just patterns in the training data.
+The scirpt will generate a ".pkl" file. In order to use this database, read the docstring of the "model_training.py" script.
 
 """
 import minst_loader
