@@ -1,3 +1,5 @@
+"""Data loader used to load the extended data set."""
+
 import minst_loader
 import pickle
 import gzip
@@ -7,6 +9,7 @@ class MissingDatabaseError(BaseException):
     pass
 
 def load_data_wrapper():
+    """This method is not technically a wrapper but has been named like that to be consistent with the normal data loader"""
     training_data_none, validation_data, test_data = minst_loader.load_data_wrapper()
     # f = gzip.open('expanded_training_data.pkl.gz', 'rb')
     # training_data = pickle.load(f, encoding="latin1")
