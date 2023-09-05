@@ -7,30 +7,56 @@ import numpy as np
 import pickle
 import random
 
+class quadratic_cost:
+    @staticmethod
+    def get_cost_value(output, target):
+        return sum((output-target)**2/2)
+    
+    @staticmethod
+    def get_delta(z, a, target):
+        return (a - target) * sigmoid_prime(z)
+    
+class cross_entropy_cost:
+    @staticmethod
+    def get_cost_value(output, target):
+        return np.sum(np.nan_to_num(-target*np.log(output)-(1-target)*np.log(1-output)))
+    
+    @staticmethod
+    def get_delta(z, a, target):
+        return a-target
+
 class MLP:
-    def __init__(self, sizes):
+    def __init__(self, sizes, cost = cross_entropy_cost):
         """Initializes various parameters."""
         self.num_layers = len(sizes)
         self.sizes = sizes
+        self.cost_function = cost
         
         self.biases = [np.random.randn(n,1) for n in self.sizes[1:]]
-        self.weights = [np.random.randn(n,m) for n,m in zip(self.sizes[1:],self.sizes[:-1])]
+        self.weights = [np.random.randn(n,m)/np.sqrt(m) for n,m in zip(self.sizes[1:],self.sizes[:-1])]
 
         self.parameters = []
         self.epoch_performances = []
 
+    def normal_weight_initialization(self):
+        """In case you want to try normal initialization(not reccomended)"""
+        self.biases = [np.random.randn(n,1) for n in self.sizes[1:]]
+        self.weights = [np.random.randn(n,m)for n,m in zip(self.sizes[1:],self.sizes[:-1])]
+
     def __feed_forward(self, a):
         """Returns the output of the network, given 'a' as input"""
-        for weight,bias in zip(self.weights, self.biases):
-            a = self.__sigmoid(np.dot(weight, a)+bias)
+        for w,b in zip(self.weights, self.biases):
+            a = sigmoid(np.dot(w,a)+b)
         return a
 
-    def SGD(self, training_data, test_data = None, mini_batch_size = 10, epochs = 10 ,learning_rate = 0.5):
+    def SGD(self, training_data, test_data = None, mini_batch_size = 10, epochs = 10 ,learning_rate = 0.5, lmbd = 5):
         """Trains the network using mini-batch gradiend descent."""
         training_data = list(training_data)
         len_training_data = len(training_data)
+        print(len_training_data)
         if test_data:
             test_data = list(test_data)
+            len_test_data = len(test_data)
 
         for epoch in range(epochs):
             random.shuffle(training_data)
@@ -49,11 +75,11 @@ class MLP:
                     weights_gradients = [wg + swg for wg, swg in zip(weights_gradients,single_weights_gradients)]
 
                 self.biases = [b - (learning_rate/mini_batch_size)*bg for b,bg in zip(self.biases, biases_gradients)]
-                self.weights = [w - (learning_rate/mini_batch_size)*wg for w,wg in zip(self.weights, weights_gradients)]            
+                self.weights = [(1-learning_rate*(lmbd/len_training_data))*w - (learning_rate/mini_batch_size)*wg for w,wg in zip(self.weights, weights_gradients)]            
 
             if test_data:
                 predicted = self.__evaluate_model(test_data)
-                print("Epoch {}: guessed {} out of {}".format(epoch,predicted,len(test_data)))
+                print("Epoch {}: guessed {} out of {}".format(epoch,predicted,len_test_data))
                 self.epoch_performances.append(predicted)
                 self.parameters.append(([self.weights,self.biases]))
 
@@ -73,15 +99,15 @@ class MLP:
             z = np.dot(w,a) + b
             z_values_list.append(z)
 
-            a = self.__sigmoid(z)
+            a = sigmoid(z)
             activation_list.append(a)
 
-        delta = self.__cost_derivative(a, target) * self.__sigmoid_prime(z)
+        delta = self.cost_function.get_delta(z,a,target)
         biases_gradients[-1] = delta
         weights_gradients[-1] = np.dot(delta,activation_list[-2].transpose())
 
         for l in range(2,len(self.sizes)):
-            delta = np.dot(self.weights[-l+1].transpose(),delta) * self.__sigmoid_prime(z_values_list[-l])
+            delta = np.dot(self.weights[-l+1].transpose(),delta) * sigmoid_prime(z_values_list[-l])
             biases_gradients[-l] = delta
             weights_gradients[-l] = np.dot(delta,activation_list[-l-1].transpose())
 
@@ -90,7 +116,9 @@ class MLP:
     def reinitialize_model(self):
         """In case you want to re-train the model with other hyper-parameters."""
         self.biases = [np.random.randn(n,1) for n in self.sizes[1:]]
-        self.weights = [np.random.randn(n,m) for n,m in zip(self.sizes[1:],self.sizes[:-1])]
+        self.weights = [np.random.randn(n,m)/np.sqrt(m) for n,m in zip(self.sizes[1:],self.sizes[:-1])]
+        self.parameters = []
+        self.epoch_performances = []
 
     def __evaluate_model(self, test_data):
         results = [(np.argmax(self.__feed_forward(image)),target) for image, target in test_data]
@@ -102,14 +130,12 @@ class MLP:
         pickle.dump(self.parameters[np.argmax(self.epoch_performances)],file)
         print(np.argmax(self.epoch_performances))
 
-    def __cost_derivative(self, activation, target):
-        return activation - target
 
-    def __sigmoid(self, z):
+def sigmoid(z):
         return 1.0 / ( 1.0 + np.exp(-z) )
     
-    def __sigmoid_prime(self, z):
-        return self.__sigmoid(z)*(1 - self.__sigmoid(z))
+def sigmoid_prime(z):
+        return sigmoid(z)*(1 - sigmoid(z))
 
 
 if __name__ == "__main__":
