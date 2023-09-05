@@ -1,6 +1,6 @@
 """
-You can run this script if you want the database to take less space on the computer, at the cost of waitning a bit more time:
-The "extended_minst_loader will have to unzip it every time you train the network."
+You can run this script if you want the database to take less space on the computer, by zipping it and then deleting the "extended_training_data.pkl" file,
+at the cost of waitning a bit more time: The "extended_minst_loader will have to unzip it every time you train the network."
 """
 
 import gzip
