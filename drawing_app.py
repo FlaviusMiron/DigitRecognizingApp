@@ -1,11 +1,9 @@
 """
 Drawing application that recognizes the digit you draw using machine learning. It recognizes only digits from 0 to 9. Comes with a pretrained model,
 but can also be trained locally on your machine. Uses the MNIST handwritten digit database to train. In order to train the model, run the 
-"model_training.py" script and the best parameters from the training epochs will be associated to the app on the next run.
+"model_training.py" script and the best parameters from the training epochs will be associated to the app on the next run automatically.
 After drawing, clicking on "see prediction" will cause the script to take the pixel map of the digit you've drawn, format it and feed it to the
 neural network. Afterwards, the results are showed.
-
-I plan on improving the network's training in the following time.
 """
 
 
