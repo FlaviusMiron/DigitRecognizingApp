@@ -20,6 +20,3 @@ elif has_pip:
     os.system("pip install tk")
     os.system("pip install customtkinter")
     os.system("pip install numpy")
-
-else:
-    print("Python not installed on this machine")
