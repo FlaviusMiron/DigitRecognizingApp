@@ -125,7 +125,7 @@ class MLP:
         return sum([x == y for (x,y) in results])
     
     def save_data(self, file_name):
-        """Used to save the best performing parameters in order for them to be used by the drawing app.""""
+        """Used to save the best performing parameters in order for them to be used by the drawing app."""
         file = open(file_name,'wb')
         pickle.dump(self.parameters[np.argmax(self.epoch_performances)],file)
         print(np.argmax(self.epoch_performances))
