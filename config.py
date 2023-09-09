@@ -14,9 +14,12 @@ if has_conda:
     os.system("conda install -c anaconda tk")
     os.system("conda install -c anaconda customtkinter")
     os.system("conda install -c anaconda numpy")
+    os.system("conda install -c anaconda Pillow")
 
 elif has_pip:
     print("Pip is installed on this machine")
     os.system("pip install tk")
     os.system("pip install customtkinter")
     os.system("pip install numpy")
+    os.system("pip install Pillow")
+    
