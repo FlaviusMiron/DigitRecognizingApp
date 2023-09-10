@@ -17,3 +17,6 @@ The "config.exe" file will install the required modules on your computer, and sh
 
 Also, ghostscript has to be manually downloaded and added to the path envoirment variable in order for python's imaging library to work properly:
 https://www.ghostscript.com/releases/index.html
+
+![image](https://github.com/FlaviusMiron/DigitRecognizingApp/assets/100422650/19e6d8f6-afaa-4c15-b287-56a7590de022)
+
