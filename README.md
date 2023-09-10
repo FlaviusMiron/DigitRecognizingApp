@@ -20,6 +20,6 @@ https://www.ghostscript.com/releases/index.html
 
 ![image](https://github.com/FlaviusMiron/DigitRecognizingApp/assets/100422650/86dc624e-b880-4fb6-8350-438e180e894f)
 
-The digit should be drawn in the white frame.
+The digit should be drawn in the white frame. It is smaller since the network's imput is a 28x28 pixel image, similar to the data set, and making it bigget would increase the computational time to rescale and alanyze, making the program slower.
 
 
